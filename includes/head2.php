@@ -10,7 +10,6 @@
         <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=PT+Sans:400,700'>
         <link rel="stylesheet" href="css/rbs.css">
         <link rel="stylesheet" href="css/rbs2.css">
-        <link rel="stylesheet" href="css/rbs3.css">
                <meta charset="utf-8">
         <title>Fullscreen Login</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">

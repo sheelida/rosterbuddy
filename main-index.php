@@ -38,7 +38,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <body>
 
         <div class="page-container">
-            <h1>Login</h1>
+            <div class="logo"></div>
             <form action="" method="post">
                 <input type="text" name="username" class="username" placeholder="Username">
                 <input type="password" name="password" class="password" placeholder="Password">

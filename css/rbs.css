@@ -7,13 +7,16 @@ body {
 }
 
 .page-container {
-    margin: 300px auto 0 auto;
+    margin: 200px auto 0 auto;
 }
 
-h1 {
-    font-size: 30px;
-    font-weight: 700;
-    text-shadow: 0 1px 4px rgba(0,0,0,.2);
+.logo {
+    background-image: url(../image/logo.png);
+    background-repeat: no-repeat;
+    height: 148px;
+    width: 600px;
+    margin: auto;
+    position: relative;
 }
 
 form {
@@ -75,8 +78,8 @@ input:focus {
 
 button {
     cursor: pointer;
-    width: 300px;
-    height: 44px;
+    width: 270px;
+    height: 42px;
     margin-top: 25px;
     padding: 0;
     background: #ef4300;

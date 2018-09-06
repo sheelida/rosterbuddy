@@ -15,7 +15,7 @@ header{
     left: -200px;
     width: 200px;
     height: calc(100vh - 48px);
-    background-color: #FFD624;
+    background-color: hsl(47,89%,51%);
     transition: left 0.5s;
     z-index: 9999;
 }
@@ -25,11 +25,11 @@ header{
 }
 
 .navbar{
-    background-color: #FFD624;
+    background-color: hsl(47,89%,51%);
     margin:0;
 }
 
 button{
-    background-color: #FFD624;
+    background-color: hsl(47,89%,51%);
     border: 1px solid #FFFFFF;
 }

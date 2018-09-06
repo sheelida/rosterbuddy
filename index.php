@@ -7,9 +7,9 @@ $page_title = 'Sign In';
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $email = $_POST['email'];
     $password = $_POST['password'];
-    
     $account = new Account();
     $success = $account -> authenticate($email, $password);
+    
     if ($success == true){
         //login successful
         session_start();

@@ -27,8 +27,9 @@ $page_title = 'Profile';
             <label for ="password">Password: </label>
             <input class="form-control" type="password" name="password" id="password" placeholder="Insert the password."/>
         </div>
+                <button name="update" class="btn btn-warning mt-1 btn-block" type="submit">Update Info</button>
         </div>
-        <button name="update" class="btn btn-warning mt-1 btn-block" type="submit">Update Info</button>
+
 
 
     </body>

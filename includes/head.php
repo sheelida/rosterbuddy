@@ -15,4 +15,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <script src="js/navefect.js"></script>
+        <?php 
+        print_r ($_SESSION);
+        ?>
 </head>

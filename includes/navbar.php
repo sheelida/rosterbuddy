@@ -5,9 +5,9 @@
 </header>
 <div id="side-menu">
   <nav class="nav flex-column">
-    <a href="#" class="nav-link text-light">Dashboard</a>
-    <a href="#" class="nav-link text-light">Profile</a>
-    <a href="#" class="nav-link text-light">Message</a>
+    <a href="home.php" class="nav-link text-light">Dashboard</a>
+    <a href="profile.php" class="nav-link text-light">Profile</a>
+    <a href="message.php" class="nav-link text-light">Message</a>
     <a href="#" class="nav-link text-light">Roster</a>
     <a href="#" class="nav-link text-light">Logout</a>
   </nav>
