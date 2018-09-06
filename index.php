@@ -18,7 +18,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         header("location: home.php");
     }
     else{
-        $message = 'Wrong credentials supplied';
+        $message = 'Wrong credentials supplied!';
         $message_class = 'warning';
     }
 }
@@ -27,8 +27,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 <!doctype html>
 <html>
     <?php include('includes/head.php')?>
+    
     <body>
-        <div class="jumbotron">
+        <div class="wrapper">
+        <div id="demo" class="carousel slide" data-ride="carousel">
             <div class="col-md-4 offset-md-4">
                <form id="signin-form" method="post" action="index.php">
                         <h3>Roster Buddy</h3>
@@ -45,12 +47,37 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         
                         
                         
-                        <div class="row">
+                        <div class="login"> 
                             <button name="signin" class="btn btn-warning mt-1 btn-block" type="submit">Login</button>
                         </div>
                         
                     </form>
-            
+                   
+                    <?php
+                    if($message){
+                        echo "<div class=\"alert alert-$message_class alert-dismissable fade show\">
+                            $message
+                            <button class=\" close\" type=\"button\" data-dismiss=\"alert\">
+                            &times;
+                            </button>
+                        </div>";
+                    }
+                    ?>
+                     <!-- slideshow -->
+                          <div class="carousel-inner">
+                            <div class="carousel-item active">
+                              <img src="image/chef.jpg" width="100%" height="100%">
+                            </div>
+                            <div class="carousel-item">
+                              <img src="image/chef.jpg" width="100%" height="100%">
+                            </div>
+                            <div class="carousel-item">
+                              <img src="image/chef.jpg" width="100%" height="100%">
+                            </div>
+                          </div>
         </div>
+        </div>
+        </div>
+        <script src="js/login.js"></script>
     </body>
 </html>

@@ -1,0 +1,35 @@
+
+
+body{
+    margin: 0;
+    position: relative;
+}
+
+header{
+    position:relative;
+}
+
+#side-menu{
+    position: absolute;
+    top: 46px;
+    left: -200px;
+    width: 200px;
+    height: calc(100vh - 48px);
+    background-color: #FFD624;
+    transition: left 0.5s;
+    z-index: 9999;
+}
+
+#side-menu.open{
+    left:0;
+}
+
+.navbar{
+    background-color: #FFD624;
+    margin:0;
+}
+
+button{
+    background-color: #FFD624;
+    border: 1px solid #FFFFFF;
+}
