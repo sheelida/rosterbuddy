@@ -4,7 +4,7 @@ class Account extends Database{
     public function __construct(){
         parent::__construct();
         
-        
+    
     }
     public function create($fname, $lname, $email, $password){
         //create array to store errors
@@ -12,7 +12,6 @@ class Account extends Database{
         
         //validade names
        // if(filter_var($fname,$lname,Validator::name))
-        
         //validate email
         if(filter_var($email,FILTER_VALIDATE_EMAIL)== false){
             $errors['email']='Invalid email address!';
@@ -30,8 +29,8 @@ class Account extends Database{
             (?,?,?,?,3)";
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $statement = $this -> connection -> prepare($query);
+            $statement -> bind_param('ssss', $fname, $lname, $email, $hash);
             $success = $statement -> execute() ? true : false;
-            
             //check the error code 
             if ($success == false && $this -> connection -> errno == '1062'){
                 $errors['email'] = 'Email address already used!';
@@ -50,7 +49,7 @@ class Account extends Database{
         
         
         public function authenticate($email, $password){
-            $query = 'SELECT email, password
+            $query = 'SELECT acc_id, email, password
             from Account 
             WHERE email = ?';
             $statement = $this -> connection -> prepare($query);
@@ -64,6 +63,7 @@ class Account extends Database{
             }
             else {
                 $account = $result -> fetch_assoc();
+                $acc_id = $account['acc_id'];
                 $email = $account['email'];
                 $hash = $account['password'];
                 $match = password_verify($password, $hash);
