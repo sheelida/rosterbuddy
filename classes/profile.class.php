@@ -21,7 +21,7 @@ class Profile extends Account{
     $statement -> bind_param('s', $email );
     try{
       if( $statement -> execute() == false ){
-        throw new Exception('query failed');
+        throw new Exception('Query failed');
       }
       else{
         $result = $statement -> get_result();
@@ -39,32 +39,19 @@ class Profile extends Account{
     }
     
   }
-  public function UpdateProfile( $email, $fname, $lname , Array $passwords=array() ){
-    if( count($passwords) == 2 ){
-      //user is updating with password (there are two passwords)
-      //check if the passwords are equal
-      if( $passwords[0] !== $passwords[1] ){
-        $this -> errors['password'] = 'passwords do not match';
-        return false;
-      }
-      //check if the password is valid
-      if( Validator::password( $passwords[0] ) == false ){
-        $this -> errors['password'] = implode( ' ', Validator::$errors );
-        return false;
-      }
-      
+  
+  public function UpdateProfile( $fname, $lname , $email, $passwords){
       //if there are no errors
       if( count($this -> errors) == 0 ){
         //update user data with password
         $query = 'UPDATE Account SET fname=?, lname=?, password=? WHERE email=?';
         $statement = $this -> connection -> prepare( $query );
         //hash password
-        $hash = password_hash( $passwords[0], PASSWORD_DEFAULT ); 
+        $hash = password_hash( $passwords, PASSWORD_DEFAULT ); 
         //bind the parameters
-        $statement -> bind_param('ssss', $fname, $lname, $hash, $email);
+        $statement -> bind_param('ssss', $fname, $lname, $hash, $email );
         return ( $statement -> execute() ) ? true : false;
       }
-    }
     else{
       //user is not updating password so only update other values
       

@@ -22,4 +22,6 @@ class Validator{
     }
     return count(self::$errors) == 0 ? true : false;
   }
+}
+
 ?>

@@ -7,16 +7,17 @@ if(!$_SESSION['email']){
     header('location:index.php');
 }
 include('autoloader.php');
+
+$profm = new Profile();
+
 //if user is updating account
 if($_SERVER['REQUEST_METHOD']=='POST'){
     //handle post data
-    $profile = new Profile();
-    
     $fname = $_POST['fname'];
     $lname = $_POST['lname'];
     $password = $_POST['password'];
     
-    $update = $profile -> UpdateProfile($_SESSION['email'],$fname,$lname,$password);
+    $update = $profm -> UpdateProfile($fname,$lname,$_SESSION['email'],$password);
     
     
     if($update == true){
@@ -39,16 +40,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     
 }
 
-
-
-$profm = new Profile();
 $account_data = $profm -> getData($_SESSION['email']);
+
 
 $fname = $account_data['fname'];
 $lname = $account_data['lname'];
 $email = $account_data['email'];
-
-
 
 ?>
 
@@ -62,7 +59,7 @@ $email = $account_data['email'];
                 <h1 class="display-4">Profile</h1>
             <div class="form-group">
                 <label for="email">Email Address:</label>
-                <input class="form-control" required value="<?php echo $email;?>" type="email" name="email" id="email"/>
+                <input class="form-control" required value="<?php echo $email;?>" type="email" name="email" id="email" readonly/>
             </div>
             
             <div class="form-group">

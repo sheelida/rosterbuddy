@@ -33,3 +33,9 @@ button{
     background-color: #FFD624;
     border: 1px solid #FFFFFF;
 }
+
+.subtitle{
+    margin-bottom: auto;
+    font-size: 10px;
+    color: #FFD624;
+}
