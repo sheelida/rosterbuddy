@@ -45,7 +45,8 @@ $shifts = $rostm -> GetShiftById($account_id);
           
           echo "<div class=\"row align-items-center bg-white\">
                 <div class=\"col\">
-                    <p class=\"mb-auto\">";echo "Date: "; echo date_format($date,"d F y"); echo " - Start Time: "; echo date_format($date,"h i A"); echo "</p>
+                    <p class=\"mb-auto\">";echo "Date: "; echo date_format($date,"d F y"); echo "</p>
+                    <p class=\"mb-auto\">";echo "Start Time: "; echo date_format($time,"h:i A"); echo"</p>
                     <p class=\"mb-auto\">$status</p>
                 </div>
                      <div class=\"col-auto\">
@@ -53,6 +54,8 @@ $shifts = $rostm -> GetShiftById($account_id);
                      </div>
                  </div>
                  <hr>"; 
+                 
+                //MODAL PART 
                 echo "<div class=\"modal fade\" id=\"modal$shift_id\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">
                     <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">
                       <div class=\"modal-content\">
@@ -63,6 +66,10 @@ $shifts = $rostm -> GetShiftById($account_id);
                           </button>
                         </div>
                         <div class=\"modal-body\">
+                        <p>"; 
+                        echo date_format($date,"D d F Y");
+                        echo "</p>
+                        
                         
                         </div>
                         <div class=\"modal-footer\">
@@ -83,8 +90,6 @@ $shifts = $rostm -> GetShiftById($account_id);
                  </div>
              </div>";
           }
-
-        
           ?>  
 
          </div>
