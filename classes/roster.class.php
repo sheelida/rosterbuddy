@@ -68,6 +68,43 @@ public function GetShiftById($acc_id){
       $this -> errors['query'] = $exc -> getMessage();
     }
 }
+public function GetMessageById($acc_id){
+    $message_details = array();
+    
+    $query = "SELECT distinct m.message_id, m.message_desc, m.message_date, m.recipient_id, a.fname receiver, b.fname
+              FROM Message m
+              JOIN Account a on (a.acc_id = m.recipient_id)
+			        JOIN Account b on b.acc_id = m.sender_id
+              WHERE m.recipient_id = ?
+              ORDER BY message_date DESC";
+              
+    $statement = $this -> connection -> prepare($query);
+    $statement -> bind_param('i', $acc_id);
+    
+    try{
+        $success = $statement -> execute();
+          if($success == false ){
+            throw new Exception('Query failed');
+          }
+          else{
+            $result = $statement -> get_result();
+            if( $result -> num_rows == 0 ){
+              throw new Exception('No messages founded!');
+              return $message_details;
+            }
+            else{
+            
+                while( $row = $result -> fetch_assoc() ){
+                    array_push($message_details, $row );  
+                  }
+              return $message_details;
+            }
+          }
+    }catch( Exception $exc ){
+      $this -> errors['query'] = $exc -> getMessage();
+    }
+}
+
 }
 ?>
 

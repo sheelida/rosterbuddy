@@ -1,5 +1,17 @@
 <?php
 $page_title = 'Messages';
+
+session_start();
+//if user is not logged in, redirect to login.php
+if(!$_SESSION['email']){
+    header('location:index.php');
+}
+
+include('autoloader.php');
+
+$rostm = new Roster();
+$account_id = $rostm -> GetAccIdbySession($_SESSION['email']);
+$messages = $rostm -> GetMessageById($account_id);
 ?>
 
 <!doctype html>
