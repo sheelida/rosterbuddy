@@ -39,3 +39,7 @@ button{
     font-size: 10px;
     color: #FFD624;
 }
+
+.bold{
+    font-weight: bold;
+}

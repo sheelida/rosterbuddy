@@ -34,9 +34,14 @@ $shifts = $rostm -> GetShiftById($account_id);
           $shift_date = $row['start_date'];
           $shift_time = $row['start_time'];
           $status = $row['shift_status'];
+          $end_time = $row['end_time'];
+          $location = $row['location'];
+          $assignedby = $row['assigned_by'];
+          $description = $row['description'];
           
           $date = date_create($shift_date);
           $time = date_create($shift_time);
+          $endtime = date_create($end_time);
           
 
           
@@ -66,11 +71,17 @@ $shifts = $rostm -> GetShiftById($account_id);
                           </button>
                         </div>
                         <div class=\"modal-body\">
-                        <p>"; 
-                        echo date_format($date,"D d F Y");
-                        echo "</p>
+                        <h6 class=\"align-item-center\">"; 
+                            echo date_format($date,"D d F Y");
+                            echo 
+                        "</h6> 
+                        <h6 class=\"bold\"> Status: </h6> <p>"; echo $status; echo "</p>"; 
                         
-                        
+                        echo "<h6 class=\"bold\"> Time: </h6> <p>"; echo date_format($time,"h:i A"); echo "to"; echo date_format($endtime,"h:i A"); echo
+                        "</p><h6 class=\"bold\"> Location: </h6><p>"; echo $location; 
+                        echo "<h6 class=\"bold\"> Assigned by: </h6><p>"; echo $assignedby; echo
+                        "</p><h6 class=\"bold\"> Description: </h6><p>"; echo $description; echo
+                        " </p>
                         </div>
                         <div class=\"modal-footer\">
                           <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>
