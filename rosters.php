@@ -71,13 +71,13 @@ $shifts = $rostm -> GetShiftById($account_id);
                           </button>
                         </div>
                         <div class=\"modal-body\">
-                        <h6 class=\"align-item-center\">"; 
+                        <h6>"; 
                             echo date_format($date,"D d F Y");
                             echo 
-                        "</h6> 
+                        "<hr></h6> 
                         <h6 class=\"bold\"> Status: </h6> <p>"; echo $status; echo "</p>"; 
                         
-                        echo "<h6 class=\"bold\"> Time: </h6> <p>"; echo date_format($time,"h:i A"); echo "to"; echo date_format($endtime,"h:i A"); echo
+                        echo "<h6 class=\"bold\"> Time: </h6> <p>"; echo date_format($time,"h:i A"); echo " to "; echo date_format($endtime,"h:i A"); echo
                         "</p><h6 class=\"bold\"> Location: </h6><p>"; echo $location; 
                         echo "<h6 class=\"bold\"> Assigned by: </h6><p>"; echo $assignedby; echo
                         "</p><h6 class=\"bold\"> Description: </h6><p>"; echo $description; echo
