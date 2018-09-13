@@ -37,7 +37,7 @@ public function GetAccIdbySession($email){
 public function GetShiftById($acc_id){
   
     $shift_details = array();
-    $query = "SELECT s.location,s.job_position,s.description,date(s.start_time) as start_date, date(s.end_time)as end_date,time(s.start_time)as start_time, time(s.end_time) as end_time,s.shift_status, s.assigned_by 
+    $query = "SELECT s.shift_id, s.location,s.job_position,s.description,date(s.start_time) as start_date, date(s.end_time)as end_date,time(s.start_time)as start_time, time(s.end_time) as end_time,s.shift_status, s.assigned_by 
               FROM Shift s
               JOIN Shift_event e on e.shift_id = s.shift_id
               WHERE e.acc_id= ?

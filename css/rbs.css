@@ -8,6 +8,41 @@ body {
 
 .page-container {
     margin: 200px auto 0 auto;
+    text-align: center;
+    display:inline-block;
+}
+
+/* Small devices (portrait tablets and large phones, 300px and up) */
+@media only screen and (min-width: 300px) {
+    .page-container {margin: 500px auto 0 auto;}
+}
+
+@media only screen and (min-width: 576px) {
+    .page-container {margin: 300px auto 0 auto;}
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .page-container {margin: 250px auto 0 auto;}
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .page-container {margin: 300px auto 0 auto;}
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1440px) {
+    .page-container {margin: 350px auto 0 auto;}
+}
+
+@media only screen and (min-width: 2560px) {
+    .page-container {margin: 700px auto 0 auto;}
+}
+
+#signin-form {
+    text-align: center;
+    display:inline-block;
 }
 
 .logo {
