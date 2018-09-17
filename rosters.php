@@ -36,7 +36,8 @@ $shifts = $rostm -> GetShiftById($account_id);
           $status = $row['shift_status'];
           $end_time = $row['end_time'];
           $location = $row['location'];
-          $assignedby = $row['assigned_by'];
+          $assignedby = $row['fname'];
+          $assignedbylast = $row['lname'];
           $description = $row['description'];
           
           $date = date_create($shift_date);
@@ -79,7 +80,7 @@ $shifts = $rostm -> GetShiftById($account_id);
                         
                         echo "<h6 class=\"bold\"> Time: </h6> <p>"; echo date_format($time,"h:i A"); echo " to "; echo date_format($endtime,"h:i A"); echo
                         "</p><h6 class=\"bold\"> Location: </h6><p>"; echo $location; 
-                        echo "<h6 class=\"bold\"> Assigned by: </h6><p>"; echo $assignedby; echo
+                        echo "<h6 class=\"bold\"> Assigned by: </h6><p>"; echo $assignedby; echo " "; echo $assignedbylast; echo
                         "</p><h6 class=\"bold\"> Description: </h6><p>"; echo $description; echo
                         " </p>
                         </div>

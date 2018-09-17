@@ -12,6 +12,9 @@ body {
     display:inline-block;
 }
 
+@media only screen and (min-width: 1440px) {
+    .page-container {margin: 250px auto 0 auto;}
+}
 
 @media only screen and (min-width: 2560px) {
     .page-container {margin: 500px auto 0 auto;}

@@ -15,9 +15,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     //handle post data
     $fname = $_POST['fname'];
     $lname = $_POST['lname'];
-    $password = $_POST['password'];
+    $passwords = array($_POST['password1'],$_POST['password2']);
     
-    $update = $profm -> UpdateProfile($fname,$lname,$_SESSION['email'],$password);
+    $update = $profm -> UpdateProfile($fname,$lname,$_SESSION['email'],$passwords);
     
     
     if($update == true){
@@ -33,7 +33,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     
     else{
         //update failed
-        $message = implode(' ',$profile -> errors);
+        $message = implode(' ',$profm -> errors);
         $message_class = 'warning';
         //get the errors and show to user
     }
@@ -72,11 +72,25 @@ $email = $account_data['email'];
             </div>
             <div class="form-group">
                 <label for ="password">Password: </label>
-                <input class="form-control" type="password" name="password" id="password" placeholder="Insert the password."/>
+                <input class="form-control" type="password" name="password1" id="password" placeholder="Insert the password."/>
+            </div>
+            <div class="form-group">
+                <label for ="password">Verify Password: </label>
+                <input class="form-control" type="password" name="password2" id="vpassword" placeholder="Verify the password."/>
             </div>
                     <button name="update" class="btn btn-warning mt-1 btn-block" type="submit">Update Info</button>
             </div>
         </form>
+                <?php
+                    if($message){
+                        echo "<div class=\"alert alert-$message_class alert-dismissable fade show\">
+                            $message
+                            <button class=\" close\" type=\"button\" data-dismiss=\"alert\">
+                            &times;
+                            </button>
+                        </div>";
+                }
+                ?>
 
 
     </body>
