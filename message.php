@@ -19,32 +19,48 @@ $messages = $rostm -> GetMessageById($account_id);
     <?php include('includes/head.php')?>
     <body>
         <?php include('includes/navbar.php')?>
-        
         <div class="jumbotron col-md-4 offset-md-4">
-            <h1 class="display-4">Messages</h1>
-            <div class="form-group">
-                <label for="messagefrom">From:</label>
-                <input class="form-control" required value="<?php echo "fname/lname";?>" type="messagefrom" name="messagefrom" id="messagefrom" readonly/>
-            </div>
-            <div class="form-group">
-                <label for="messagedate">Date:</label>
-                <input class="form-control" required value="<?php echo "01/01/2000";?>" type="messagedate" name="messagedate" id="messagedate" readonly/>
-            </div>
-            <div class="form-group">
-                <label for="messagetext">Text:</label>
-                <textarea class="form-control" rows="4" cols="50" required value="<?php echo "blub blub";?>" type="messagetext" name="messagetext" id="messagetext" readonly/>
-                </textarea>
-            </div>
-            
-            <nav aria-label="...">
-                  <ul class="pagination pagination-lg">
-                    <li class="page-item disabled">
-                      <a class="page-link" href="#" tabindex="-1"><</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">></a></li>
-                  </ul>
-                </nav>
+            <h1 class=\"display-4\">Messages</h1>
+        <?php
+        if(count($messages)>0){
+            foreach($messages as $row){
+                $message_id = $row['message_id'];
+                $message_desc = $row['message_desc'];
+                $message_date = $row['message_date']; 
+                $message_sender = $row['sender_name'];
+                
+                $date = date_create($message_date);
+                
+                echo "
+                
+                <div class=\"accordion\" id=\"accordionExample\">
+                  <div class=\"card\">
+                    <div class=\"card-header\" id=\"headingOne\">
+                      <h5 class=\"mb-0\">
+                        <button class=\"btn btn-link\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapse$message_id\" aria-expanded=\"true\" aria-controls=\"collapseOne\">
+                         <p> From: "; echo $message_sender; echo " </p>
+                         <p> Date: "; echo date_format($date,"d F y"); echo "</p>
+                        </button>
+                      </h5>
+                    </div>
+                    <div id=\"collapse$message_id\" class=\"collapse show\" aria-labelledby=\"headingOne\" data-parent=\"#accordionExample\">
+                      <div class=\"card-body\">";
+                      echo $message_desc; echo "
+                    </div>
+            </div>";
+            }
 
-        </div>
+        } else{
+                echo "<div class=\"row align-items-center bg-white\">
+                        <div class=\"col\">
+                            <p class=\"mb-auto\">NO messages available!</p>
+                        </div>
+                    <div class=\"col-auto\">
+                        <button class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#$shift_id\">View</button>
+                    </div>
+             </div>";
+            }
+            ?>
+            </div>
     </body>
 </html>

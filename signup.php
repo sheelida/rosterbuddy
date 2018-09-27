@@ -2,7 +2,7 @@
 //include autoloader
 include('autoloader.php');
 
-$page_title = 'Sign Up';
+$page_title = 'Register Employee';
 
 //check request method
 //if request is a POST request
@@ -45,11 +45,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 <html>
    <?php include('includes/head.php')?>
     <body>
+         <?php include('includes/navbar2.php')?>
         <div class="container">
             <div class="row">
                 <div class="col-md-4 offset-md-4">
                     <form id="signup-form" method="post" action="signup.php">
-                        <h3>Sign up for an account</h3>
+                        <h3>Register a New Employee</h3>
                          <div class="form-group">
                             <label for="fname">First Name:</label>
                             <input class="form-control" type="fname" name="fname" id="fname" placeholder="E.g Josias"/>

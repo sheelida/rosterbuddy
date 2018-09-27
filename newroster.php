@@ -1,5 +1,5 @@
 <?php
-$page_title = 'Rosters';
+$page_title = "New Roster";
 
 session_start();
 //if user is not logged in, redirect to login.php
@@ -10,47 +10,55 @@ if(!$_SESSION['email']){
 include('autoloader.php');
 
 $rostm = new Roster();
+
+
 $account_id = $rostm -> GetAccIdbySession($_SESSION['email']);
-$shifts = $rostm -> GetShiftById($account_id);
+$shifts = $rostm -> GetAllShifts($account_id);
 
+$profm = new Profile();
+$employees_names = $profm -> GetAllEmployees();
 
+if($_SERVER['REQUEST_METHOD']=='POST'){
+    $newAssign = $rostm -> AssignShift($shift_id, $emp_id);
+    
+}
 ?>
-
 <!doctype html>
 <html>
     <?php include('includes/head.php')?>
     <body>
-        <?php include('includes/navbar.php')?>
+        <?php include('includes/navbar2.php')?>
         
         <div class="jumbotron col-md-5 offset-md-3">
-            <h1 class="display-4">Rosters</h1>
+            <h1 class="display-4">Assign Rosters</h1>
             
-          <?php
+            </br>
+             <button name="add" class="btn btn-warning mt-1 btn-block"> Create a new shift </button>
+            </br>
+            
+            
+            
+        <?php
           if(count($shifts)>0){
           foreach ($shifts as $row){
           $shift_id = $row['shift_id'];
-          $shift_date = $row['start_date'];
           $shift_time = $row['start_time'];
           $status = $row['shift_status'];
           $end_time = $row['end_time'];
           $location = $row['location'];
+          $description = $row['description'];
           $assignedby = $row['fname'];
           $assignedbylast = $row['lname'];
-          $description = $row['description'];
-          
-          $date = date_create($shift_date);
-          $time = date_create($shift_time);
-          $endtime = date_create($end_time);
-          
-
-          
+          $start_date = date_create($shift_time);
+          $end_date = date_create($end_time);
           $job_position = $row['job_position'];
           
           
           echo "<div class=\"row align-items-center bg-white\">
                 <div class=\"col\">
-                    <p class=\"mb-auto\">";echo "Date: "; echo date_format($date,"d F y"); echo "</p>
-                    <p class=\"mb-auto\">";echo "Start Time: "; echo date_format($time,"h:i A"); echo"</p>
+                
+                    <p class=\"mb-auto\">";echo "Date: "; echo date_format($start_date,"d F y"); echo "</p>
+                    <p class=\"mb-auto\">";echo "Start Time: "; echo date_format($start_date,"h:i A"); echo"</p>
                     <p class=\"mb-auto\">$status</p>
                 </div>
                      <div class=\"col-auto\">
@@ -71,19 +79,34 @@ $shifts = $rostm -> GetShiftById($account_id);
                         </div>
                         <div class=\"modal-body\">
                         <h6>"; 
-                            echo date_format($date,"D d F Y");
+                            echo date_format($start_date,"D d F Y");
                             echo 
                         "</h6> <hr>
                         <h6 class=\"bold\"> Status: </h6> <p>"; echo $status; echo "</p>"; 
-                        
-                        echo "<h6 class=\"bold\"> Time: </h6> <p>"; echo date_format($time,"h:i A"); echo " to "; echo date_format($endtime,"h:i A"); echo
+                        echo "<h6 class=\"bold\"> Time: </h6> <p>"; echo date_format($start_date,"h:i A"); echo " to "; echo date_format($end_date,"h:i A"); echo
                         "</p><h6 class=\"bold\"> Location: </h6><p>"; echo $location; 
-                        echo "<h6 class=\"bold\"> Assigned by: </h6><p>"; echo $assignedby; echo " "; echo $assignedbylast; echo
+                        echo "<h6 class=\"bold\"> Created by: </h6><p>"; echo "$assignedby $assignedbylast"; echo
                         "</p><h6 class=\"bold\"> Description: </h6><p>"; echo $description; echo
-                        " </p>
-                        </div>
-                        <div class=\"modal-footer\">
-                          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>
+                        " </p>";
+                        
+                            echo "<div class=\"form-group\">
+                         <select name=\"employees\" required value=\"\">";
+                           if(count($employees_names)>0){
+                                      foreach ($employees_names as $row){
+                                      $emp_id= $row['acc_id'];
+                                      $fname = $row['fname'];
+                                      $lname = $row['lname'];
+                                      
+                                      echo "
+                                      <option value=\"$emp_id\">$fname $lname</option>";
+                                  }
+                                 }
+                                echo "</select>";
+                        echo "</div>
+                        <div class=\"modal-footer\">";
+                        
+                            echo "<button type=\"button\" class=\"btn btn-success\" type=\"submit\">Confirm the assign</button>
+                            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>
                         </div>
                       </div>
                     </div>
@@ -91,17 +114,15 @@ $shifts = $rostm -> GetShiftById($account_id);
                  
               }
           } else{
-             echo "<div class=\"row align-items-center bg-white\">
+             echo "<div class=\"row bg-white\">
             <div class=\"col\">
-                <p class=\"mb-auto\">NO shifts!</p>
+                <p class=\"mb-auto align-items\">NO shifts!</p>
             </div>
-                 <div class=\"col-auto\">
-                     <button class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#$shift_id\">View</button>
-                 </div>
              </div>";
           }
           ?>  
-
+       
+       
          </div>
         </div>
     </body>

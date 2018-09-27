@@ -47,7 +47,34 @@ class Account extends Database{
 
         }
         
-        
+        public function GetAllEmployees(){
+            $employees = array();
+            $query = "SELECT * FROM Account WHERE role_id = 3";
+            $statement = $this -> connection -> prepare($query);
+            try{
+                $success = $statement -> execute();
+                  if($success == false ){
+                    throw new Exception('Query failed');
+                  }
+                  else{
+                    $result = $statement -> get_result();
+                    if( $result -> num_rows == 0 ){
+                      throw new Exception('No messages founded!');
+                      return $employees;
+                    }
+                    else{
+                    
+                        while( $row = $result -> fetch_assoc() ){
+                            array_push($employees, $row );  
+                          }
+                      return $employees;
+                    }
+                  }
+    }catch( Exception $exc ){
+      $this -> errors['query'] = $exc -> getMessage();
+    }
+            
+        }
         public function authenticate($email, $password){
             $query = 'SELECT acc_id, email, password
             from Account 
