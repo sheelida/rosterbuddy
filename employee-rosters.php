@@ -15,8 +15,6 @@ $rostm = new Roster();
 $account_id = $rostm -> GetAccIdbySession($_SESSION['email']);
 $shifts = $rostm -> GetShiftsAssignedBy($account_id);
 
-
-
 ?>
 
 <!doctype html>
@@ -89,7 +87,7 @@ $shifts = $rostm -> GetShiftsAssignedBy($account_id);
                         " </p>
                         </div>
                         <div class=\"modal-footer\">
-                            <button type=\"button\" class=\"btn btn-success\"><a href=\"rosterdetail.php?shift_id=$shift_id\">Edit</a></button>
+                            <a href=\"rosterdetail.php?shift_id=$shift_id\"><button type=\"button\" class=\"btn btn-success\">Edit</button></a>
                             <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>
                         </div>
                       </div>

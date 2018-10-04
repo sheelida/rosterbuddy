@@ -249,6 +249,16 @@ public function AssignShift($shift_id, $acc_id){
       $this -> errors['query'] = $exc -> getMessage();
     }
 }
+public function UpdateRoster($location, $job_position, $description, $start_time, $end_time, $shift_status, $shift_id){
+        //update roster data 
+        $query = 'UPDATE Shift SET location=?, job_position=?, description=?, start_time=?, end_time=?, shift_status=? WHERE shift_id=?;';
+        $statement = $this -> connection -> prepare( $query );
+        //bind the parameters
+        $statement -> bind_param('ssssssi', $location, $job_position, $description, $start_time, $end_time, $shift_status, $shift_id);
+        
+        return ( $statement -> execute() ) ? true : false;
+}
+
 }
 ?>
 
