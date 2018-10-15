@@ -35,9 +35,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         //show success message
         $message = 'The shift has been added!';
         $message_class = 'success';
-        
-        header('location: shome.php');
-        
     }
     
     else{
@@ -95,7 +92,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         
             </div>
             </form>
-                            <?php
+            <?php
                     if($message){
                         echo "<div class=\"alert alert-$message_class alert-dismissable fade show\">
                             $message
@@ -104,7 +101,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                             </button>
                         </div>";
                 }
-                ?>
+            ?>
             
     </body>
 </html>

@@ -54,7 +54,7 @@ if(!$_SESSION['email']){
                 <div class=\"col\">
                     <p class=\"mb-auto\">";echo "Date: "; echo date_format($date,"d F y"); echo "</p>
                     <p class=\"mb-auto\">";echo "Start Time: "; echo date_format($time,"h:i A"); echo"</p>
-                    <p class=\"mb-auto\">$status</p>
+                    <p class=\"mb-auto\">"; echo ucfirst($status); echo "</p>
                 </div>
                      <div class=\"col-auto\">
                          <button class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#modal$shift_id\">View</button>
@@ -77,7 +77,7 @@ if(!$_SESSION['email']){
                             echo date_format($date,"D d F Y");
                             echo 
                         "</h6> <hr>
-                        <h6 class=\"bold\"> Status: </h6> <p>"; echo $status; echo "</p>"; 
+                        <h6 class=\"bold\"> Status: </h6> <p>"; echo ucfirst($status); echo "</p>"; 
                         
                         echo "<h6 class=\"bold\"> Time: </h6> <p>"; echo date_format($time,"h:i A"); echo " to "; echo date_format($endtime,"h:i A"); echo
                         "</p><h6 class=\"bold\"> Location: </h6><p>"; echo $location; 

@@ -35,8 +35,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $message = 'Your message has been sent!';
         $message_class = 'success';
         
-        header('location: shome.php');
-        
     }
     
     else{

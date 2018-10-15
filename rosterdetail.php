@@ -38,7 +38,8 @@ $end = date("Y-m-d\TH:i", strtotime($end_time));
 
 //if user is updating shift
 if($_SERVER['REQUEST_METHOD']=='POST'){
-    //handle post data
+    //handle post data\
+    $newemployee = $_POST['employees'];
     $newlocation = $_POST['location'];
     $newposition = $_POST['position'];
     $newstart_time = date_create($_POST['start_time']);
@@ -46,14 +47,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $newdescription = $_POST['description'];
     $newstatus = $_POST['status'];
     $newid = $_POST['shift_id'];
-    
-    echo $newstart;
-    echo $newend;
-    
-    
-    
-    
-    $update = $rostm -> UpdateRoster($newlocation, $newposition, $newdescription, date_format($newstart_time, "Y-m-d H:i:s"), date_format( $newend_time,"Y-m-d H:i:s"), $newstatus, $newid);
+
+    $update = $rostm -> UpdateRoster($newlocation, $newposition, $newdescription, date_format($newstart_time, "Y-m-d H:i:s"), date_format( $newend_time,"Y-m-d H:i:s"), $newstatus, $shift_id);
     
     if($update == true){
     

@@ -15,27 +15,14 @@ $rostm = new Roster();
 $account_id = $rostm -> GetAccIdbySession($_SESSION['email']);
 $shifts = $rostm -> GetAllShifts($account_id);
 
+echo $shifts['shift_id'];
+
 $profm = new Profile();
 $employees_names = $profm -> GetAllEmployees();
 
-//if user is assigning a new shift to someone
 if($_SERVER['REQUEST_METHOD']=='POST'){
-    $employee = $_POST['employees'];
-    $shiftsss = $_POST['shiftss'];
-    $newAssign = $rostm -> AssignShift($employee, $shiftsss);
-   
-    if($newAssign == true){
-        //show success message
-        $message = 'The roster has been inserted!';
-        $message_class = 'success';
-    }
+    $newAssign = $rostm -> AssignShift($shift_id, $emp_id);
     
-    else{
-        //update failed
-        $message = implode(' ', $rostm -> errors);
-        $message_class = 'warning';
-        //get the errors and show to user
-    }
 }
 ?>
 <!doctype html>
@@ -47,11 +34,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         <div class="jumbotron col-md-5 offset-md-3">
             <h1 class="display-4">Assign Rosters</h1>
             
-            
             </br>
-            
-            <a href="newshift.php">
-             <button name="add" class="btn btn-warning mt-1 btn-block"> Create a new shift </button></a>
+             <button name="add" class="btn btn-warning mt-1 btn-block"> Create a new shift </button>
             </br>
             
             
@@ -70,26 +54,23 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
           $start_date = date_create($shift_time);
           $end_date = date_create($end_time);
           $job_position = $row['job_position'];
-          $assignedto_id = $row['assign_to'];
-          $assignedto_fname = $row['assignto_fname'];
-          $assignedto_lname = $row['assignto_lname'];
+          
           
           echo "<div class=\"row align-items-center bg-white\">
                 <div class=\"col\">
+                
                     <p class=\"mb-auto\">";echo "Date: "; echo date_format($start_date,"d F y"); echo "</p>
                     <p class=\"mb-auto\">";echo "Start Time: "; echo date_format($start_date,"h:i A"); echo"</p>
                     <p class=\"mb-auto\">"; echo ucfirst($status); echo "</p>
                 </div>
                      <div class=\"col-auto\">
-                         <button class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#modal$shift_id"; echo "$assignedto_id\">View</button>
+                         <button class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#modal$shift_id\">View</button>
                      </div>
                  </div>
                  <hr>"; 
                  
                 //MODAL PART 
-                echo "
-                <div class=\"modal fade\" id=\"modal$shift_id"; echo "$assignedto_id\" tbindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">
-                
+                echo "<div class=\"modal fade\" id=\"modal$shift_id\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">
                     <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">
                       <div class=\"modal-content\">
                         <div class=\"modal-header\">
@@ -103,15 +84,15 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                             echo date_format($start_date,"D d F Y");
                             echo 
                         "</h6> <hr>
-                        <h6 class=\"bold\"> Status: </h6> <p>"; echo ucfirst($status); echo "</p>";
+                        <h6 class=\"bold\"> Status: </h6> <p>"; echo ucfirst($status); echo "</p>"; 
                         echo "<h6 class=\"bold\"> Time: </h6> <p>"; echo date_format($start_date,"h:i A"); echo " to "; echo date_format($end_date,"h:i A"); echo
                         "</p><h6 class=\"bold\"> Location: </h6><p>"; echo $location; 
                         echo "<h6 class=\"bold\"> Created by: </h6><p>"; echo "$assignedby $assignedbylast"; echo
                         "</p><h6 class=\"bold\"> Description: </h6><p>"; echo $description; echo
-                        " </p>
-                        <form method=\"post\" action=\"newroster.php\">
-                        <input type=\"hidden\" name=\"shiftss\" value=\"$shift_id\"/>
-                        <select name=\"employees\" required value=\"\">";
+                        " </p>";
+                        
+                    echo "<div class=\"form-group\">
+                         <select name=\"employees\" required value=\"\">";
                            if(count($employees_names)>0){
                                       foreach ($employees_names as $item){
                                       $emp_id= $item['acc_id'];
@@ -122,21 +103,15 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                                       <option value=\"$emp_id\">$fname $lname</option>";
                                   }
                                  }
-                        echo "</select>
+                    echo "</select>";
+                    echo "</div>
+                        <div class=\"modal-footer\">";
                         
-                        </div>
-                        
-                        
-                        <div class=\"modal-footer\">
-                        
-                            <button name=\"new-assign\" id=\"new-assign\" class=\"btn btn-success\" type=\"submit\">Confirm the assign</button>
-                        </form>
+                            echo "<button type=\"button\" class=\"btn btn-success\" type=\"submit\">Confirm the assign</button>
                             <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>
                         </div>
-                        
                       </div>
                     </div>
-                   
                   </div>";
                  
               }
@@ -147,6 +122,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             </div>
              </div>";
           }
+          
           ?>  
        
        

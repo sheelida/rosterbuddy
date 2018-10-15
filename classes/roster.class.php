@@ -41,7 +41,7 @@ public function GetShiftById($acc_id){
               FROM Shift s
               JOIN Shift_event e on e.shift_id = s.shift_id
 			        JOIN Account a on s.assigned_by = a.acc_id
-              WHERE e.acc_id= ?
+              WHERE e.acc_id= ? and s.shift_status != 'cancelled'
               ORDER BY start_date asc";
         
     $statement = $this -> connection -> prepare($query);
@@ -113,9 +113,9 @@ public function GetShiftsAssignedBy($acc_id){
     JOIN Account a ON s.assigned_by = a.acc_id
     JOIN Shift_event e ON s.shift_id = e.shift_id
     JOIN Account b ON e.acc_id = b.acc_id
-    WHERE s.assigned_by = ? ";
+    WHERE s.assigned_by = ? AND s.start_time > CURDATE( ) 
+    ORDER BY s.start_time ASC";
 
-//AND s.start_time > CURDATE( ) 
   $statement = $this -> connection -> prepare($query);
   $statement -> bind_param('i', $acc_id);
     try{
@@ -148,10 +148,10 @@ public function GetAllShifts($acc_id){
   $query = "SELECT s.shift_id, s.job_position, s.start_time, s.end_time, s.shift_status, s.description, s.location, a.fname,a.lname
             FROM Shift s 
             JOIN Account a ON s.assigned_by = a.acc_id
-            WHERE assigned_by = ?
+            WHERE assigned_by = ? AND s.start_time > CURDATE( ) 
           ORDER BY start_time ASC  ";
 
-//AND s.start_time > CURDATE( ) 
+//
   $statement = $this -> connection -> prepare($query);
   $statement -> bind_param('i', $acc_id);
     try{
@@ -201,36 +201,25 @@ public function GetShiftByShiftId($shift_id){
     }
 }
 
-public function AssignShift($shift_id, $acc_id){
-  $query = "INSERT into Shift_event(acc_id, shift_id) VALUES (?, ?)";
-   $statement = $this -> connection -> prepare($query);
+public function AssignShift($acc_id,$shift_id){
+  
+    $query = "INSERT INTO Shift_event(acc_id, shift_id) VALUES(?, ?)";
+    $statement = $this -> connection -> prepare($query);
     $statement -> bind_param('ii', $acc_id, $shift_id);
-    try{
-          if( $statement -> execute() == false ){
-            throw new Exception('Query failed');
-          }
-          else{
-            $result = $statement -> get_result();
-            if( $result -> num_rows == 0 ){
-              throw new Exception('No shift founded!');
-            }
-            else{
-              $row = $result -> fetch_assoc();
-              return $row;
-            }
-          }
-    }catch( Exception $exc ){
-      $this -> errors['query'] = $exc -> getMessage();
-    }
+    
+    return ( $statement -> execute() ) ? true : false;
+
 }
-public function UpdateRoster($location, $job_position, $description, $start_time, $end_time, $shift_status, $shift_id){
+public function UpdateRoster($location, $job_position, $description, $start_time, $end_time, $shift_status,$newacc_id, $shift_id, $oldacc_id){
         //update roster data 
-        $query = 'UPDATE Shift SET location=?, job_position=?, description=?, start_time=?, end_time=?, shift_status=? WHERE shift_id=?;';
+        $query = 'UPDATE Shift SET location=?, job_position=?, description=?, start_time=?, end_time=?, shift_status=?
+        WHERE s.shift_id=?';
+
         $statement = $this -> connection -> prepare( $query );
         //bind the parameters
-        $statement -> bind_param('ssssssi', $location, $job_position, $description, $start_time, $end_time, $shift_status, $shift_id);
-        
-        return ( $statement -> execute() ) ? true : false;
+        $statement -> bind_param('ssssssiiii', $location, $job_position, $description, $start_time, $end_time, $shift_status, $shift_id);
+
+        return ( $statement -> execute()) ? true : false;
 }
 public function InsertNewShift($location, $job_position, $description, $start_time, $end_time, $shift_status, $acc_id){
         //update roster data 
