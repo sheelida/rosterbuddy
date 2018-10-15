@@ -18,7 +18,7 @@ $messages = $rostm -> GetMessageById($account_id);
 <html>
     <?php include('includes/head.php')?>
     <body>
-        <?php include('includes/navbar.php')?>
+        <?php include('includes/navbar2.php')?>
         <div class="jumbotron col-md-4 offset-md-4">
             <h1 class=\"display-4\">Messages</h1>
         <?php

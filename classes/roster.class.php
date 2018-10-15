@@ -108,13 +108,12 @@ public function GetMessageById($acc_id){
 
 public function GetShiftsAssignedBy($acc_id){
   $shifts = array();
-  $query = "SELECT s.shift_id, s.location, s.job_position, s.description, s.start_time, s.end_time, s.shift_status, a.fname, a.lname, e.acc_id AS assign_to
-          FROM Shift s
-          JOIN Account a ON s.assigned_by = a.acc_id
-          JOIN Shift_event e ON s.shift_id = e.shift_id
-          WHERE s.assigned_by =?
-    
-          ORDER BY start_time ASC ";
+  $query = "SELECT s.shift_id, s.location, s.job_position, s.description, s.start_time, s.end_time, s.shift_status, a.fname, a.lname, e.acc_id AS assign_to, b.fname AS assignto_fname, b.lname AS assignto_lname
+    FROM Shift s
+    JOIN Account a ON s.assigned_by = a.acc_id
+    JOIN Shift_event e ON s.shift_id = e.shift_id
+    JOIN Account b ON e.acc_id = b.acc_id
+    WHERE s.assigned_by = ? ";
 
 //AND s.start_time > CURDATE( ) 
   $statement = $this -> connection -> prepare($query);
@@ -143,31 +142,6 @@ public function GetShiftsAssignedBy($acc_id){
     }
 }
 
-public function GetAssignedTo($acc_id){
-    $query = "SELECT fname, lname
-              FROM Account
-              WHERE acc_id =?";
-    $statement = $this -> connection -> prepare($query);
-    $statement -> bind_param('i', $acc_id);
-    try{
-          if( $statement -> execute() == false ){
-            throw new Exception('Query failed');
-          }
-          else{
-            $result = $statement -> get_result();
-            if( $result -> num_rows == 0 ){
-              throw new Exception('No shift founded!');
-            }
-            else{
-              $row = $result -> fetch_assoc();
-              return $row;
-            }
-          }
-    }catch( Exception $exc ){
-      $this -> errors['query'] = $exc -> getMessage();
-    }
-  
-}
 
 public function GetAllShifts($acc_id){
   $shifts = array();
@@ -255,6 +229,24 @@ public function UpdateRoster($location, $job_position, $description, $start_time
         $statement = $this -> connection -> prepare( $query );
         //bind the parameters
         $statement -> bind_param('ssssssi', $location, $job_position, $description, $start_time, $end_time, $shift_status, $shift_id);
+        
+        return ( $statement -> execute() ) ? true : false;
+}
+public function InsertNewShift($location, $job_position, $description, $start_time, $end_time, $shift_status, $acc_id){
+        //update roster data 
+        $query = 'INSERT INTO Shift(location, job_position, description, start_time, end_time, shift_status, assigned_by) VALUES (?,?,?,?,?,?,?)';
+        $statement = $this -> connection -> prepare( $query );
+        //bind the parameters
+        $statement -> bind_param('ssssssi', $location, $job_position, $description, $start_time, $end_time, $shift_status, $acc_id);
+        
+        return ( $statement -> execute() ) ? true : false;
+}
+public function InsertNewMessage($message_desc, $recipient_id, $sender_id){
+         //update roster data 
+        $query = 'INSERT INTO Message(message_desc, message_date, recipient_id, sender_id) VALUES (?,CURRENT_TIMESTAMP(),?,?)';
+        $statement = $this -> connection -> prepare( $query );
+        //bind the parameters
+        $statement -> bind_param('sii', $message_desc, $recipient_id, $sender_id);
         
         return ( $statement -> execute() ) ? true : false;
 }

@@ -16,7 +16,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $password = $_POST['password'];
     //sign user up 
     $signup = $account -> create($fname,$lname,$email,$password);
-    echo $signup;
     if($signup == true){
         //signup succeded
         //start the session

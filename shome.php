@@ -24,12 +24,14 @@ $email = $account_data['email'];
         <?php
         
         echo " 
-        <div class=\"jumbotron col-md-4 offset-md-4\">
+        <div class=\"jumbotron col-md-6 offset-md-3\">
             <h3>Welcome $fname!</h3>
             
         </div>
         "
         ?>
+
+
 
 
     </body>

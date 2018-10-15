@@ -9,13 +9,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $password = $_POST['password'];
     $account = new Account();
     $success = $account -> authenticate($email, $password);
-    
+    $role_id = $account -> GetRoleID($email);
     if ($success == true){
         //login successful
         session_start();
         $_SESSION['email'] = $email;
+        $_SESSION['role_id'] = $role_id;
         //redirect user to homepage
-        header("location: home.php");
+        
+        if($role_id==3){
+            header("location: home.php");
+        }
+        else if ($role_id==2){
+           header("location: shome.php"); 
+        }
     }
     else{
         $message = 'Wrong credentials supplied!';
@@ -34,6 +41,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         <script src="js/script3.js"></script>
         <script src="js/script2.js"></script>
         <script src="js/script1.js"></script>
+        <script src="css/rbs.css"></script>
         
     <body>
 

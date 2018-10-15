@@ -45,25 +45,24 @@ $shifts = $rostm -> GetShiftsAssignedBy($account_id);
           $end_date = date_create($end_time);
           $job_position = $row['job_position'];
           $assignedto_id = $row['assign_to'];
-          
-          $assignedto = $rostm -> GetAssignedTo($assignedto_id);
-          
+          $assignedto_fname = $row['assignto_fname'];
+          $assignedto_lname = $row['assignto_lname'];
           
           echo "<div class=\"row align-items-center bg-white\">
                 <div class=\"col\">
-                    <p class=\"mb-auto\">";echo "Assigned to: "; echo $assignedto['fname']; echo " "; echo $assignedto['lname']; echo "</p>
+                    <p class=\"mb-auto\">";echo "Assigned to: "; echo $assignedto_fname; echo " "; echo $assignedto_lname; echo "</p>
                     <p class=\"mb-auto\">";echo "Date: "; echo date_format($start_date,"d F y"); echo "</p>
                     <p class=\"mb-auto\">";echo "Start Time: "; echo date_format($start_date,"h:i A"); echo"</p>
-                    <p class=\"mb-auto\">$status</p>
+                    <p class=\"mb-auto\">"; echo ucfirst($status); echo "</p>
                 </div>
                      <div class=\"col-auto\">
-                         <button class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#modal$shift_id\">View</button>
+                         <button class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#modal$shift_id"; echo "$assignedto_id\">View</button>
                      </div>
                  </div>
                  <hr>"; 
                  
                 //MODAL PART 
-                echo "<div class=\"modal fade\" id=\"modal$shift_id\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">
+                echo "<div class=\"modal fade\" id=\"modal$shift_id"; echo "$assignedto_id\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">
                     <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">
                       <div class=\"modal-content\">
                         <div class=\"modal-header\">
@@ -77,17 +76,19 @@ $shifts = $rostm -> GetShiftsAssignedBy($account_id);
                             echo date_format($start_date,"D d F Y");
                             echo 
                         "</h6> <hr>
-                        <h6 class=\"bold\"> Status: </h6> <p>"; echo $status; echo "</p>"; 
+                        <h6 class=\"bold\"> Status: </h6> <p>"; echo ucfirst($status); echo "</p>"; 
                         
-                        echo "<h6 class=\"bold\"> Assigned to: </h6> <p>"; echo $assignedto['fname']; echo " "; echo $assignedto['lname']; echo "</p>"; 
+                        echo "<h6 class=\"bold\"> Assigned to: </h6> <p>"; echo $assignedto_fname; echo " "; echo $assignedto_lname; echo "</p>"; 
                         echo "<h6 class=\"bold\"> Time: </h6> <p>"; echo date_format($start_date,"h:i A"); echo " to "; echo date_format($end_date,"h:i A"); echo
                         "</p><h6 class=\"bold\"> Location: </h6><p>"; echo $location; 
                         echo "<h6 class=\"bold\"> Assigned by: </h6><p>"; echo "$assignedby $assignedbylast"; echo
                         "</p><h6 class=\"bold\"> Description: </h6><p>"; echo $description; echo
                         " </p>
                         </div>
+                        
+                        
                         <div class=\"modal-footer\">
-                            <a href=\"rosterdetail.php?shift_id=$shift_id\"><button type=\"button\" class=\"btn btn-success\">Edit</button></a>
+                            <a href=\"rosterdetail.php?shift_id=$shift_id&assignto_id=$assignedto_id\"><button type=\"button\" class=\"btn btn-success\">Edit</button></a>
                             <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>
                         </div>
                       </div>

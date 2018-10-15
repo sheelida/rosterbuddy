@@ -15,6 +15,8 @@ $rostm = new Roster();
 $account_id = $rostm -> GetAccIdbySession($_SESSION['email']);
 $shifts = $rostm -> GetAllShifts($account_id);
 
+echo $shifts['shift_id'];
+
 $profm = new Profile();
 $employees_names = $profm -> GetAllEmployees();
 
@@ -59,7 +61,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                 
                     <p class=\"mb-auto\">";echo "Date: "; echo date_format($start_date,"d F y"); echo "</p>
                     <p class=\"mb-auto\">";echo "Start Time: "; echo date_format($start_date,"h:i A"); echo"</p>
-                    <p class=\"mb-auto\">$status</p>
+                    <p class=\"mb-auto\">"; echo ucfirst($status); echo "</p>
                 </div>
                      <div class=\"col-auto\">
                          <button class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#modal$shift_id\">View</button>
@@ -82,7 +84,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                             echo date_format($start_date,"D d F Y");
                             echo 
                         "</h6> <hr>
-                        <h6 class=\"bold\"> Status: </h6> <p>"; echo $status; echo "</p>"; 
+                        <h6 class=\"bold\"> Status: </h6> <p>"; echo ucfirst($status); echo "</p>"; 
                         echo "<h6 class=\"bold\"> Time: </h6> <p>"; echo date_format($start_date,"h:i A"); echo " to "; echo date_format($end_date,"h:i A"); echo
                         "</p><h6 class=\"bold\"> Location: </h6><p>"; echo $location; 
                         echo "<h6 class=\"bold\"> Created by: </h6><p>"; echo "$assignedby $assignedbylast"; echo
@@ -92,10 +94,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                             echo "<div class=\"form-group\">
                          <select name=\"employees\" required value=\"\">";
                            if(count($employees_names)>0){
-                                      foreach ($employees_names as $row){
-                                      $emp_id= $row['acc_id'];
-                                      $fname = $row['fname'];
-                                      $lname = $row['lname'];
+                                      foreach ($employees_names as $item){
+                                      $emp_id= $item['acc_id'];
+                                      $fname = $item['fname'];
+                                      $lname = $item['lname'];
                                       
                                       echo "
                                       <option value=\"$emp_id\">$fname $lname</option>";
@@ -120,10 +122,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             </div>
              </div>";
           }
+          
           ?>  
        
        
          </div>
-        </div>
     </body>
 </html>

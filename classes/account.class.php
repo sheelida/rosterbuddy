@@ -47,7 +47,7 @@ class Account extends Database{
 
         }
         
-        public function GetAllEmployees(){
+public function GetAllEmployees(){
             $employees = array();
             $query = "SELECT * FROM Account WHERE role_id = 3";
             $statement = $this -> connection -> prepare($query);
@@ -75,7 +75,7 @@ class Account extends Database{
     }
             
         }
-        public function authenticate($email, $password){
+public function authenticate($email, $password){
             $query = 'SELECT acc_id, email, password
             from Account 
             WHERE email = ?';
@@ -106,5 +106,29 @@ class Account extends Database{
             }
                    
         }
+public function GetRoleID($email){
+     //get account data by its id
+    $query = 'SELECT role_id FROM Account WHERE email = ?';
+    $statement = $this -> connection -> prepare($query);
+    $statement -> bind_param('s', $email );
+    try{
+      if( $statement -> execute() == false ){
+        throw new Exception('Query failed');
+      }
+      else{
+        $result = $statement -> get_result();
+        if( $result -> num_rows == 0 ){
+          throw new Exception('No account founded!');
+        }
+        else{
+          $row = $result -> fetch_assoc();
+          return $row['role_id'];
+        }
+      }
+    }
+    catch( Exception $exc ){
+      $this -> errors['query'] = $exc -> getMessage();
+    }
+  }
     }
 ?>

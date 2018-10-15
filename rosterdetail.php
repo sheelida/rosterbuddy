@@ -3,7 +3,7 @@ $page_title = 'Roster Detail';
 
 session_start();
 //if user is not logged in, redirect to login.php
-if(!$_SESSION['email']){
+if(!$_SESSION['email'] || $_SESSION['role_id']!=2){
     header('location:index.php');
 }
 include('autoloader.php');
@@ -12,6 +12,7 @@ include('autoloader.php');
 $rostm = new Roster();
 //get previous page ID
 $prev_id=$_GET['shift_id'];
+$assto_id = $_GET['assignto_id'];
 
 //apply get the data from DB using previous ID
 $shiftdetail = $rostm -> GetShiftByShiftId($prev_id);
@@ -40,25 +41,27 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     //handle post data
     $newlocation = $_POST['location'];
     $newposition = $_POST['position'];
-    $newstart_time = $_POST['start_time'];
-    $newend_time = $_POST['end_time'];
+    $newstart_time = date_create($_POST['start_time']);
+    $newend_time = date_create($_POST['end_time']);
     $newdescription = $_POST['description'];
     $newstatus = $_POST['status'];
+    $newid = $_POST['shift_id'];
+    
+    echo $newstart;
+    echo $newend;
     
     
     
-    $newstart = date("Y-m-d H:i:s",$newstart_time);
-    $newend = date("Y-m-d H:i:s", $newend_time);
     
-    
-    
-    $update = $rostm -> UpdateRoster($newlocation, $newposition, $newstart, $newend, $newdescription,$newstatus, $prev_id);
+    $update = $rostm -> UpdateRoster($newlocation, $newposition, $newdescription, date_format($newstart_time, "Y-m-d H:i:s"), date_format( $newend_time,"Y-m-d H:i:s"), $newstatus, $newid);
     
     if($update == true){
     
         //show success message
         $message = 'The roster has been updated!';
         $message_class = 'success';
+        
+        header('location: employee-rosters.php');
         
     }
     
@@ -79,10 +82,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         <?php include('includes/navbar2.php')?>
         
         
-        <form method="post" action="rosterdetail.php?shift_id="<?php echo $prev_id ?>>
+        <form method="post" action="rosterdetail.php">
             <div class="jumbotron col-md-4 offset-md-4">
                 <h1 class="display-4">Roster Detail</h1>
                 <div class="form-group">
+                <label for="employee">Assign to:</label>
                 <select name="employees" required value="">
                 <?php
                       if(count($employees_names)>0){
@@ -90,9 +94,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                       $emp_id= $row['acc_id'];
                       $fname = $row['fname'];
                       $lname = $row['lname'];
-                      
-                      echo "<option value=\"$emp_id\">$fname $lname</option>";
-                      }
+                    
+
+                        $selected = ( $emp_id == $assto_id ) ? 'selected' : '';
+                        echo $selected;
+                        echo "<option value=\"$emp_id\" $selected >" . $fname. " ". $lname . "</option>";
+                    }
                      }
                      ?>
                 </select>
@@ -113,20 +120,25 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             </div>
             <div class="form-group">
                 <label for ="end_time">End Time: </label>
-                <input class="form-control" type="datetime-local" required value="<?php echo $end;?>"name="end_time" id="end_time"/>
+                <input class="form-control" type="datetime-local" required value="<?php echo $end;?>" name="end_time" id="end_time"/>
             </div>
             <div class="form-group">
                 <label for ="description">Description: </label>
-                <textarea class="form-control" type="input" name="description" id="description"> <?php echo $description;?></textarea>
+                <textarea class="form-control" type="input" name="description" id="description"><?php echo $description;?></textarea>
             </div>
-            
         
             <div class="form-group">
-                <select name="status" required value="<?php echo $status?>">
-                      <option value="confirmed">Confirmed</option>
-                      <option value="pending">Pending</option>
-                      <option value="cancelled">Cancelled</option>
+                <select name="status">
+                    <?php
+                    $arr = array("confirmed", "pending", "cancelled");
+                    
+                    foreach( $arr as $option ){
+                        $selected = ( $option == $status ) ? 'selected' : '';
+                        echo "<option value=\"$option\" $selected >" . ucfirst($option) . "</option>";
+                    }
+                    ?>
                 </select>
+                <input type="hidden" name="shift_id" value="<?php echo $prev_id?>"/>
             </div>
                     <button name="updateRoster" class="btn btn-warning mt-1 btn-block" type="submit">Edit Roster</button>
             </div>
