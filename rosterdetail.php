@@ -48,7 +48,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $newstatus = $_POST['status'];
     $newid = $_POST['shift_id'];
 
-    $update = $rostm -> UpdateRoster($newlocation, $newposition, $newdescription, date_format($newstart_time, "Y-m-d H:i:s"), date_format( $newend_time,"Y-m-d H:i:s"), $newstatus, $shift_id);
+    $update = $rostm -> UpdateRoster($newlocation, $newposition, $newdescription, date_format($newstart_time, "Y-m-d H:i:s"), date_format( $newend_time,"Y-m-d H:i:s"), $newstatus, $shift_id, $newemployee, $assto_id);
     
     if($update == true){
     
@@ -134,8 +134,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                     ?>
                 </select>
                 <input type="hidden" name="shift_id" value="<?php echo $prev_id?>"/>
-            </div>
+            
                     <button name="updateRoster" class="btn btn-warning mt-1 btn-block" type="submit">Edit Roster</button>
+            </div>
             </div>
         </form>
                 <?php

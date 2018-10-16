@@ -210,16 +210,27 @@ public function AssignShift($acc_id,$shift_id){
     return ( $statement -> execute() ) ? true : false;
 
 }
-public function UpdateRoster($location, $job_position, $description, $start_time, $end_time, $shift_status,$newacc_id, $shift_id, $oldacc_id){
+public function UpdateRoster($location, $job_position, $description, $start_time, $end_time, $shift_status, $shift_id, $newacc_id, $oldacc_id){
         //update roster data 
         $query = 'UPDATE Shift SET location=?, job_position=?, description=?, start_time=?, end_time=?, shift_status=?
-        WHERE s.shift_id=?';
+        WHERE shift_id=?';
 
         $statement = $this -> connection -> prepare( $query );
         //bind the parameters
-        $statement -> bind_param('ssssssiiii', $location, $job_position, $description, $start_time, $end_time, $shift_status, $shift_id);
+        $statement -> bind_param('ssssssi', $location, $job_position, $description, $start_time, $end_time, $shift_status, $shift_id);
+        
+        $success =  $statement -> execute();
+        
+        //update shift_event data 
+        $querys = 'UPDATE Shift_event SET acc_id=? WHERE shift_id=? AND acc_id=?';
 
-        return ( $statement -> execute()) ? true : false;
+        $statements = $this -> connection -> prepare( $querys );
+        //bind the parameters
+        $statements -> bind_param('iii', $newacc_id, $shift_id, $oldacc_id);
+        
+        $success =  $statements -> execute();
+        
+        return ($success) ? true : false;
 }
 public function InsertNewShift($location, $job_position, $description, $start_time, $end_time, $shift_status, $acc_id){
         //update roster data 
